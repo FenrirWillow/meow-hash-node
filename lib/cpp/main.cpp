@@ -1,48 +1,51 @@
-#include <iostream>
 #include <napi.h>
 #include "meow_hash_x64_aesni.h"
 
-Napi::BigInt GetMeowHash32(const Napi::CallbackInfo& info) {
+Napi::String CreateHash(const Napi::CallbackInfo& info) {
 	Napi::Env env = info.Env();
 
 	if(!info[0].IsBuffer()) {
+		// TODO: (Stefan) Make the error message constexpr string.
 		Napi::TypeError::New(env, "Buffer expected").ThrowAsJavaScriptException();
 	}
 
-	Napi::Buffer<uint> buffer = info[0].As<Napi::Buffer<char>>();
+	Napi::Buffer<uint8_t> Buffer = info[0].As<Napi::Buffer<uint8_t>>();
 	meow_u128 Hash = MeowHash(MeowDefaultSeed, buffer.Length(), buffer.Data());
-	uint32_t Hash32 = MeowU32From(Hash, 0);
 
-
-	printf("    %08X-%08X-%08X-%08X\n",
-           MeowU32From(Hash, 3),
-           MeowU32From(Hash, 2),
-           MeowU32From(Hash, 1),
-           MeowU32From(Hash, 0));
-	// std::cout << "Hash -> " << MeowU32From(Hash, 3) << "-" << MeowU32From(Hash, 2) << "-" << MeowU32From(Hash, 1) << "-" << MeowU32From(Hash, 0) << std::endl;
-	return Napi::BigInt::New(env, int64_t(Hash32));
+	char HashStringBuffer[36];
+	snprintf(
+		HashStringBuffer,
+		sizeof(HashStringBuffer),
+		"%08X-%08X-%08X-%08X",
+		MeowU32From(Hash, 3),
+		MeowU32From(Hash, 2),
+		MeowU32From(Hash, 1),
+		MeowU32From(Hash, 0)
+	);
+	return Napi::String::New(env, HashStringBuffer, 36);
 }
 
 Napi::Boolean CompareBuffers(const Napi::CallbackInfo& info) {
 	Napi::Env env = info.Env();
 
 	if(info.Length() < 2 || !info[0].IsBuffer() || !info[1].IsBuffer()) {
+		// TODO: (Stefan) Make the error message a little nicer
 		Napi::TypeError::New(env, "Two buffers expected").ThrowAsJavaScriptException();
 	}
 
-	Napi::Buffer<int16_t> bufferA = info[0].As<Napi::Buffer<int16_t>>();
-	Napi::Buffer<int16_t> bufferB = info[0].As<Napi::Buffer<int16_t>>();
+	Napi::Buffer<uint8_t> bufferA = info[0].As<Napi::Buffer<uint8_t>>();
+	Napi::Buffer<uint8_t> bufferB = info[0].As<Napi::Buffer<uint8_t>>();
 
-	meow_u128 HashA = MeowHash(MeowDefaultSeed, bufferA.Length(), bufferA);
-	meow_u128 HashB = MeowHash(MeowDefaultSeed, bufferB.Length(), bufferB);
+	meow_u128 HashA = MeowHash(MeowDefaultSeed, bufferA.Length(), bufferA.Data());
+	meow_u128 HashB = MeowHash(MeowDefaultSeed, bufferB.Length(), bufferB.Data());
 	return Napi::Boolean::New(env, MeowHashesAreEqual(HashA, HashB));
 }
 
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
-	exports.Set("GetMeowHash32", Napi::Function::New(env, GetMeowHash32));
-	exports.Set("CompareBuffers", Napi::Function::New(env, CompareBuffers));
+	exports.Set("CreateHash", 		Napi::Function::New(env, CreateHash));
+	exports.Set("CompareBuffers", 	Napi::Function::New(env, CompareBuffers));
+
 	return exports;
 }
-
 
 NODE_API_MODULE(meow_hash_node, InitAll)
