@@ -7,7 +7,8 @@
             'lib/cpp/main.cpp'
         ],
         'include_dirs': [
-            '<!@(node -p \'require("node-addon-api").include\')'
+            '<!@(node -p \'require("node-addon-api").include\')',
+            'lib/include/'
         ],
         'libraries': [],
         'dependencies': [
