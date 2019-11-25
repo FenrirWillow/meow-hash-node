@@ -4,11 +4,13 @@
         '!cflags': [ '-fno-exceptions', '-O3', '-mavx', '-maes' ],
         '!cflags_cc!': [ '-fno-exceptions', '-O3', '-mavx', '-maes' ],
         'sources': [
+            'lib/cpp/meow_hash_native_stream.cpp',
             'lib/cpp/main.cpp'
         ],
         'include_dirs': [
             "<!@(node -p \"require('node-addon-api').include\")",
-            "lib/include/"
+            "lib/include/",
+            "lib/headers/"
         ],
         'dependencies': [
             "<!(node -p \"require('node-addon-api').gyp\")"

@@ -1,5 +1,6 @@
 #include <napi.h>
 #include "meow_hash_x64_aesni.h"
+#include "meow_hash_native_stream.h"
 
 Napi::String CreateHash(const Napi::CallbackInfo& info) {
 	Napi::Env env = info.Env();
@@ -42,9 +43,9 @@ Napi::Boolean CompareBuffers(const Napi::CallbackInfo& info) {
 }
 
 Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
+	MeowHashNativeStream::Init(env, exports);
 	exports.Set("CreateHash", 		Napi::Function::New(env, CreateHash));
 	exports.Set("CompareBuffers", 	Napi::Function::New(env, CompareBuffers));
-
 	return exports;
 }
 
