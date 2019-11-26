@@ -21,7 +21,7 @@ jobs:
       run: cat /proc/cpuinfo
     - name: Install build essentials
       run: |
-        apt-get update
-        apt-get install -y --no-cache build-essential
+        sudo apt-get update
+        sudo apt-get install -y --no-cache build-essential
     - name: Print versions
       run: gcc --version
