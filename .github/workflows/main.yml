@@ -17,6 +17,7 @@ jobs:
       run: |
         node --version
         npm --version
+        yarn --version
     - name: Get CPU information
       run: cat /proc/cpuinfo
     - name: Install build essentials
