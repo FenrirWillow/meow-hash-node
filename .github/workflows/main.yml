@@ -19,3 +19,9 @@ jobs:
         npm --version
     - name: Get CPU information
       run: cat /proc/cpuinfo
+    - name: Install build essentials
+      run: |
+        apt-get update
+        apt-get install -y --no-cache build-essential
+    - name: Print versions
+      run: gcc --version
