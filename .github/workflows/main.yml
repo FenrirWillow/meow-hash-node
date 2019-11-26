@@ -26,3 +26,9 @@ jobs:
         sudo apt-get install -y build-essential
     - name: Print versions
       run: gcc --version
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+    - name: Build module
+      run: yarn build
+    - name: Test module
+      run: yarn test
