@@ -27,7 +27,9 @@ jobs:
     - name: Print versions
       run: gcc --version
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: |
+        export CFLAGS="-msse4"
+        yarn install --frozen-lockfile
     - name: Build module
       run: yarn build
     - name: Test module
