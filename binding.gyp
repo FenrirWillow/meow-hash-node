@@ -1,8 +1,8 @@
 {
     'targets': [{
         'target_name': 'meow_hash_node',
-        '!cflags': [ '-fno-exceptions', '-O3', '-mavx', '-maes', '-msse4.1' ],
-        '!cflags_cc!': [ '-fno-exceptions', '-O3', '-mavx', '-maes', '-msse4.1' ],
+        '!cflags': [ '-fno-exceptions', '-O3', '-mavx', '-maes', '-msse3' ],
+        '!cflags_cc!': [ '-fno-exceptions', '-O3', '-mavx', '-maes', '-msse3' ],
         'sources': [
             'lib/cpp/meow_hash_native_stream.cpp',
             'lib/cpp/main.cpp'
