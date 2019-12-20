@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Debugging with tmate
+      uses: mxschmitt/action-tmate@v1.0.2
     - name: Print versions
       run: |
         node --version
