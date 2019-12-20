@@ -13,8 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Debugging with tmate
-      uses: mxschmitt/action-tmate@v1.0.2
     - name: Print versions
       run: |
         node --version
@@ -30,9 +28,11 @@ jobs:
       run: gcc --version
     - name: Install dependencies
       run: |
-        export CFLAGS="-msse4"
+        export CXXFLAGS="-fno-exceptions -O3 -mavx -maes -msse4"
         yarn install --frozen-lockfile
     - name: Build module
-      run: yarn build
+      run: | 
+        export CXXFLAGS="-fno-exceptions -O3 -mavx -maes -msse4"
+        yarn build
     - name: Test module
       run: yarn test
