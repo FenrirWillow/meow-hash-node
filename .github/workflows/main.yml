@@ -13,25 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Print versions
-      run: |
-        node --version
-        npm --version
-        yarn --version
-    - name: Get CPU information
-      run: cat /proc/cpuinfo
-    - name: Install build essentials
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential
-    - name: Print versions
-      run: gcc --version
     - name: Install dependencies
       run: |
         export CXXFLAGS="-fno-exceptions -O3 -mavx -maes -msse4"
         yarn install --frozen-lockfile
     - name: Build module
-      run: | 
+      run: |
         export CXXFLAGS="-fno-exceptions -O3 -mavx -maes -msse4"
         yarn build
     - name: Test module
