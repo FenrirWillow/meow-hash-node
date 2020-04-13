@@ -14,9 +14,9 @@
   "private": true,
   "gypfile": true,
   "devDependencies": {
-    "node-gyp": "^6.0.1"
+    "node-gyp": "^6.1.0"
   },
   "dependencies": {
-    "node-addon-api": "^1.7.1"
+    "node-addon-api": "^2.0.0"
   }
 }
