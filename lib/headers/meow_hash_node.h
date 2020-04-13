@@ -1,5 +1,6 @@
 #include <napi.h>
 #include "meow_hash_x64_aesni.h"
+#include "meow_hash_constants.h"
 
 Napi::String ExtractHash(const Napi::Env env, meow_u128 Hash) {
 	char hashStringBuffer[36];
@@ -18,9 +19,11 @@ Napi::String ExtractHash(const Napi::Env env, meow_u128 Hash) {
 Napi::String CreateHash(const Napi::CallbackInfo& info) {
 	Napi::Env env = info.Env();
 
-	if(!info[0].IsBuffer()) {
-		// TODO: (Stefan) Make the error message constexpr string.
-		Napi::TypeError::New(env, "Buffer expected").ThrowAsJavaScriptException();
+	if((info.Length() != 1) || (!info[0].IsBuffer())) {
+		Napi::TypeError::New(env, CREATE_HASH_ARGUMENTS_MESSAGE).ThrowAsJavaScriptException();
+		// NOTE: (Stefan) NAPI requires returns in all branches to function correctly.
+		// This string will never be propagated to the caller's context.
+		return Napi::String::New(env, "");
 	}
 
 	Napi::Buffer<uint8_t> buffer = info[0].As<Napi::Buffer<uint8_t>>();
@@ -32,9 +35,11 @@ Napi::String CreateHash(const Napi::CallbackInfo& info) {
 Napi::Boolean CompareBuffers(const Napi::CallbackInfo& info) {
 	Napi::Env env = info.Env();
 
-	if(info.Length() < 2 || !info[0].IsBuffer() || !info[1].IsBuffer()) {
-		// TODO: (Stefan) Make the error message a little nicer
-		Napi::TypeError::New(env, "Two buffers expected").ThrowAsJavaScriptException();
+	if((info.Length() != 2) || (!info[0].IsBuffer()) || (!info[1].IsBuffer())) {
+		Napi::TypeError::New(env, COMPARE_HASH_ARGUMENTS_MESSAGE).ThrowAsJavaScriptException();
+		// NOTE: (Stefan) NAPI requires returns in all branches to function correctly.
+		// This boolean will never be propagated to the caller's context.
+		return Napi::Boolean::New(env, false);
 	}
 
 	Napi::Buffer<uint8_t> bufferA = info[0].As<Napi::Buffer<uint8_t>>();
