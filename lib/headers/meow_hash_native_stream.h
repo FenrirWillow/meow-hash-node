@@ -1,6 +1,8 @@
 #include <napi.h>
 #include "meow_hash_x64_aesni.h"
 
+#pragma once
+
 class MeowHashNativeStream : public Napi::ObjectWrap<MeowHashNativeStream> {
 public:
 	static Napi::Object Init(Napi::Env env, Napi::Object exports);

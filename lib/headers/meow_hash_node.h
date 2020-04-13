@@ -2,6 +2,8 @@
 #include "meow_hash_x64_aesni.h"
 #include "meow_hash_constants.h"
 
+#pragma once
+
 Napi::String ExtractHash(const Napi::Env env, meow_u128 Hash) {
 	char hashStringBuffer[36];
 	snprintf(
