@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node-gyp rebuild",
     "clean": "node-gyp clean",
-    "test": "node test.js"
+    "test": "jest --config jest.config.json --verbose"
   },
   "repository": "git@github.com:FenrirWillow/meow-hash-node.git",
   "author": "Stefan Bobev <stefanbobev@hotmail.com>",
@@ -14,6 +14,7 @@
   "private": true,
   "gypfile": true,
   "devDependencies": {
+    "jest": "^25.3.0",
     "node-gyp": "^6.1.0"
   },
   "dependencies": {

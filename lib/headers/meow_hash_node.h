@@ -38,14 +38,14 @@ Napi::Boolean CompareBuffers(const Napi::CallbackInfo& info) {
 	Napi::Env env = info.Env();
 
 	if((info.Length() != 2) || (!info[0].IsBuffer()) || (!info[1].IsBuffer())) {
-		Napi::TypeError::New(env, COMPARE_HASH_ARGUMENTS_MESSAGE).ThrowAsJavaScriptException();
+		Napi::TypeError::New(env, COMPARE_BUFFERS_ARGUMENTS_MESSAGE).ThrowAsJavaScriptException();
 		// NOTE: (Stefan) NAPI requires returns in all branches to function correctly.
 		// This boolean will never be propagated to the caller's context.
 		return Napi::Boolean::New(env, false);
 	}
 
 	Napi::Buffer<uint8_t> bufferA = info[0].As<Napi::Buffer<uint8_t>>();
-	Napi::Buffer<uint8_t> bufferB = info[0].As<Napi::Buffer<uint8_t>>();
+	Napi::Buffer<uint8_t> bufferB = info[1].As<Napi::Buffer<uint8_t>>();
 
 	meow_u128 hashA = MeowHash(MeowDefaultSeed, bufferA.Length(), bufferA.Data());
 	meow_u128 hashB = MeowHash(MeowDefaultSeed, bufferB.Length(), bufferB.Data());

@@ -6,7 +6,7 @@ constexpr auto COMPARE_BUFFERS_FUNCTION_NAME = "CompareBuffers";
 
 constexpr auto CREATE_HASH_ARGUMENTS_MESSAGE = "CreateHash() expects exactly 1 argument of type Buffer";
 
-constexpr auto COMPARE_HASH_ARGUMENTS_MESSAGE = "CompareHash expects exactly 2 arguments of type Buffer";
+constexpr auto COMPARE_BUFFERS_ARGUMENTS_MESSAGE = "CompareBuffers() expects exactly 2 arguments of type Buffer";
 
 constexpr auto NATIVE_STREAM_CLASS_NAME = "MeowHashNativeStream";
 
