@@ -15,7 +15,7 @@ Napi::String ExtractHash(const Napi::Env env, meow_u128 Hash) {
 		MeowU32From(Hash, 1),
 		MeowU32From(Hash, 0)
 	);
-	return Napi::String::New(env, hashStringBuffer, 36);
+	return Napi::String::New(env, hashStringBuffer, sizeof(hashStringBuffer) - 1);
 }
 
 Napi::String CreateHash(const Napi::CallbackInfo& info) {
